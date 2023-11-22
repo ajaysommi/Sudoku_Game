@@ -1,8 +1,5 @@
 import math, random
 
-print('AJ sucks')
-print()
-
 class SudokuGenerator:
     '''
 	create a sudoku board - initialize class variables and set up the 2D board
