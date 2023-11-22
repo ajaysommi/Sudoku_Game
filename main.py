@@ -31,7 +31,7 @@ class SudokuGenerator:
     '''
 
     def get_board(self):
-        pass  # return 2d list (list[list]).
+        pass
 
     '''
 	Displays the board to the console
