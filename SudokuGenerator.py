@@ -62,6 +62,7 @@ class SudokuGenerator:
 	row is the index of the row we are checking
 	num is the value we are looking for in the row
 
+
 	Return: boolean
     '''
 
