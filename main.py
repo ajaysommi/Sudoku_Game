@@ -21,7 +21,14 @@ class SudokuGenerator:
     def __init__(self, row_length, removed_cells):
         self.row_length = 9
         self.removed_cells = removed_cells
-        self.list_of_list = [[1,2,3],[4,5,6],[7,8,9]]
+        self.list_of_list = []  # placeholder numbers
+
+        horizontal_list = []
+        for i in range(row_length):  # iterates through first list sequence (number of rows)
+            vertical_list = []
+            for j in range(row_length):  # iterates through second list sequence (number of columns)
+                vertical_list.append("")
+            horizontal_list.append(vertical_list)
 
     '''
 	Returns a 2D python list of numbers which represents the board
