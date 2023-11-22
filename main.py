@@ -1,6 +1,6 @@
 import math, random
 
-print("can you see me?")
+print('y ')
 class SudokuGenerator:
     '''
 	create a sudoku board - initialize class variables and set up the 2D board
