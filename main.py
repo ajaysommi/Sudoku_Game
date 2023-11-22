@@ -1,7 +1,7 @@
 import math, random
 
 print('AJ sucks')
-
+print()
 
 class SudokuGenerator:
     '''
