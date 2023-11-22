@@ -1,6 +1,6 @@
 import math, random
 
-
+print('AJ sucks')
 
 
 class SudokuGenerator:
