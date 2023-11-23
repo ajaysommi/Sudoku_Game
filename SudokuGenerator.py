@@ -1,3 +1,4 @@
+import sys
 import math, random
 
 
@@ -17,6 +18,7 @@ class SudokuGenerator:
 	Return:
 	None
     '''
+
 
     def __init__(self, row_length, removed_cells, board_list, row):
         self.row_length = row_length
@@ -41,8 +43,6 @@ class SudokuGenerator:
             self.board_list.append(self.row)
         return self.board_list
 
-
-
     '''
 	Displays the board to the console
     This is not strictly required, but it may be useful for debugging purposes
@@ -51,8 +51,11 @@ class SudokuGenerator:
 	Return: None
     '''
 
-    def print_board(self):
-      pass
+    def print_board(self):  # copied from canvas
+        for i, row in enumerate(self.board):
+            for j, col in enumerate(row):
+                print(self.board[i][j], end=" ")
+        print()
 
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
