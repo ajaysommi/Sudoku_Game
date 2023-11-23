@@ -19,12 +19,12 @@ class SudokuGenerator:
 	None
     '''
 
-
-    def __init__(self, row_length, removed_cells, board_list, row):
+    def __init__(self, row_length, removed_cells, board_list, row, col):
         self.row_length = row_length
         self.removed_cells = removed_cells
         self.board_list = board_list
         self.row = row
+        self.col = col
 
     '''
 	Returns a 2D python list of numbers which represents the board
