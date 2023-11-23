@@ -70,11 +70,11 @@ class SudokuGenerator:
     '''
 
     def valid_in_row(self, row, num):
-        for i, row_loop in enumerate(self.board_list):
-            if i+1 == row:
-                for j in row_loop:
+        for i, row_loop in enumerate(self.board_list):  # iterates through list
+            if i+1 == row:  # i+1 to compensate for index starting at zero
+                for j in row_loop:  # iterates through objects within row
                     if j+1 == num:
-                        return False
+                        return False  # returns false if num equals j+1
         return True
 
     '''
