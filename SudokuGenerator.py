@@ -70,7 +70,10 @@ class SudokuGenerator:
     '''
 
     def valid_in_row(self, row, num):
-        pass
+        for i in range(0, len(self.row)):
+            if i == num:
+                return False
+        return True
 
     '''
 	Determines if num is contained in the specified column (vertical) of the board
