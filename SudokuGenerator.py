@@ -52,9 +52,9 @@ class SudokuGenerator:
     '''
 
     def print_board(self):  # copied from canvas
-        for i, row in enumerate(self.board):
+        for i, row in enumerate(self.board_list):
             for j, col in enumerate(row):
-                print(self.board[i][j], end=" ")
+                print(self.board_list[i][j], end=" ")
         print()
 
     '''
