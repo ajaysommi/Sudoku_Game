@@ -70,7 +70,7 @@ class SudokuGenerator:
     '''
 
     def valid_in_row(self, row, num):
-        for i in range(0, len(self.row)):
+        for i in range(0, len(row)):
             if i == num:
                 return False
         return True
@@ -87,7 +87,10 @@ class SudokuGenerator:
     '''
 
     def valid_in_col(self, col, num):
-        pass
+        for i in range(0, len(col)):
+            if i == num:
+                return False
+        return True
 
     '''
 	Determines if num is contained in the 3x3 box specified on the board
