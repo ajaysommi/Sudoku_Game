@@ -70,8 +70,7 @@ class SudokuGenerator:
     '''
 
     def valid_in_row(self, row, num):
-        for i in row:
-            if i == num:
+        if num == self.board_list[row]:
                 return False
         return True
 
@@ -87,7 +86,7 @@ class SudokuGenerator:
     '''
 
     def valid_in_col(self, col, num):
-        for i in col:
+        for i in range(0, len(col)):
             if i == num:
                 return False
         return True
