@@ -89,9 +89,11 @@ class SudokuGenerator:
     '''
 
     def valid_in_col(self, col, num):
-        for i in range(0, len(col)):
-            if i == num:
-                return False
+        for i, col_loop in enumerate(self.board_list):  # iterates through list
+            if i + 1 == col:  # i+1 to compensate for index starting at zero
+                for j in col_loop:  # iterates through objects within column
+                    if j + 1 == num:
+                        return False  # returns false if num equals j+1
         return True
 
     '''
