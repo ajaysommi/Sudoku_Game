@@ -154,13 +154,16 @@ class SudokuGenerator:
 
     def fill_box(self, row_start, col_start):
         unused_in_box = random.randint(0,9)
-        for i in range(row_start, row_start + 3):
-            for j in range(col_start, col_start +3):
-                if self.board_list[row_start + i][col_start + j] != unused_in_box:
-                    result = self.board_list.append(unused_in_box)
-                else:
+        loop_condition = True
+        while loop_condition:
+            if SudokuGenerator.valid_in_box(row_start, col_start, unused_in_box):
+                rand_row = random.randint(0,3)
+                rand_col = random.randint(0,3)
+                if self.board_list[row_start + rand_row][col_start + rand_col] == '-':
+                    self.board_list[row_start+rand_row][col_start+rand_col] = unused_in_box
                     break
-                break
+            unused_in_box = random.randint(0,9)
+
 
 
     '''
