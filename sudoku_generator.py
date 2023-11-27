@@ -134,8 +134,8 @@ class SudokuGenerator:
                 col_start = col % 3
                 if self.valid_in_box(row - row_start, col - col_start, num):
                     return True
-        else:
-            return False
+
+        return False
 
 
     '''
@@ -303,6 +303,9 @@ def generate_sudoku(size, removed):
 
 def main():
     generate_sudoku(9, 10)
+    obj = SudokuGenerator(9, 10)
+    obj.is_valid(3, 3 , 4)
+
 
 main()
 
