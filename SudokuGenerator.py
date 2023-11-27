@@ -253,13 +253,13 @@ class SudokuGenerator:
     '''
 
     def remove_cells(self):
-        row = random.randInt(0, self.row_length)
-        col = random.randInt(0, self.col_length)
         loop_condition = True
         while loop_condition:
+            row = random.randInt(0, self.row_length)
+            col = random.randInt(0, self.col_length)
             if self.board_list[row][col] != '-':
                 del self.board_list[row][col]
-            break
+            loop_condition = False
 
 
 '''
