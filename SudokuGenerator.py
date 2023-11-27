@@ -25,6 +25,13 @@ class SudokuGenerator:
         self.board_list = board_list
         self.row = row
         self.col = col
+        self.row_length = 9
+        self.board_list = []
+        for i in range(self.row_length):
+            self.row = []
+            for j in range(self.row_length):
+                self.row.append('-')
+            self.board_list.append(self.row)
 
     '''
 	Returns a 2D python list of numbers which represents the board
@@ -34,13 +41,6 @@ class SudokuGenerator:
     '''
 
     def get_board(self):
-        self.row_length = 9
-        self.board_list = []
-        for i in range(self.row_length):
-            self.row = []
-            for j in range(self.row_length):
-                self.row.append('-')
-            self.board_list.append(self.row)
         return self.board_list
 
     '''
@@ -55,7 +55,7 @@ class SudokuGenerator:
         for i, row in enumerate(self.board_list):
             for j, col in enumerate(row):
                 print(self.board_list[i][j], end=" ")
-        print()
+            print()
 
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
@@ -70,12 +70,11 @@ class SudokuGenerator:
     '''
 
     def valid_in_row(self, row, num):
-        for i, row_loop in enumerate(self.board_list):  # iterates through list
-            if i+1 == row:  # i+1 to compensate for index starting at zero
-                for j in row_loop:  # iterates through objects within row
-                    if j+1 == num:
-                        return False  # returns false if num equals j+1
+        for i in range(len(self.board_list[row])):
+            if self.board_list[row][i] == num:
+                return False
         return True
+
 
     '''
 	Determines if num is contained in the specified column (vertical) of the board
@@ -89,12 +88,13 @@ class SudokuGenerator:
     '''
 
     def valid_in_col(self, col, num):
-        for i, col_loop in enumerate(self.board_list):  # iterates through list
-            if i + 1 == col:  # i+1 to compensate for index starting at zero
-                for j in col_loop:  # iterates through objects within column
-                    if j + 1 == num:
-                        return False  # returns false if num equals j+1
+        for i in range(len(self.board_list[col])):
+            if self.board_list[i][col] == num:
+                return False
         return True
+
+
+
 
     '''
 	Determines if num is contained in the 3x3 box specified on the board
@@ -133,9 +133,9 @@ class SudokuGenerator:
     def is_valid(self, row, col, num):
         if SudokuGenerator.valid_in_row(row, num):
             if SudokuGenerator.valid_in_col(col, num):
-                row_start = math.ceil(row/3)
-                col_start = math.ceil(col/3)
-                if SudokuGenerator.valid_in_box(row_start,col_start, num):
+                row_start = row % 3
+                col_start = col % 3
+                if SudokuGenerator.valid_in_box(row - row_start, col - col_start, num):
                     return True
         else:
             return False
@@ -258,7 +258,7 @@ class SudokuGenerator:
             row = random.randInt(0, self.row_length)
             col = random.randInt(0, self.col_length)
             if self.board_list[row][col] != '-':
-                del self.board_list[row][col]
+                self.board_list[row][col] = '-'
             loop_condition = False
 
 
