@@ -1,7 +1,7 @@
 import sys
 import math, random
 
-
+import math
 class SudokuGenerator:
     '''
 	create a sudoku board - initialize class variables and set up the 2D board
@@ -131,7 +131,15 @@ class SudokuGenerator:
     '''
 
     def is_valid(self, row, col, num):
-        pass
+        if SudokuGenerator.valid_in_row(row, num):
+            if SudokuGenerator.valid_in_col(col, num):
+                row_start = math.ceil(row/3)
+                col_start = math.ceil(col/3)
+                if SudokuGenerator.valid_in_box(row_start,col_start, num):
+                    return True
+        else:
+            return False
+
 
     '''
     Fills the specified 3x3 box with values
