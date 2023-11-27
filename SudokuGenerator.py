@@ -175,7 +175,16 @@ class SudokuGenerator:
     '''
 
     def fill_diagonal(self):
-        pass
+        row_start = 0
+        col_start = 0
+        loop_condition = True
+
+        while loop_condition:
+            SudokuGenerator.fill_box(row_start, col_start)
+            row_start += 3
+            col_start += 3
+            if row_start >= self.row_length:
+                loop_condition = False
 
     '''
     DO NOT CHANGE
