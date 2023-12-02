@@ -11,6 +11,9 @@ pygame.display.set_caption("Sudoku")
 
 screen.fill(BG_COLOR)
 
+def crash():
+    message_display('You Crashed')
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
