@@ -24,12 +24,28 @@ text4 = font3.render("Medium", True, (0,128,0))
 text5 = font3.render("Hard", True, (0,128,0))
 
 
+easy_rect = pygame.Rect((80,463), (text3.get_width(), text3.get_height()))
+medium_rect = pygame.Rect((250,463), (text4.get_width(), text4.get_height()))
+hard_rect = pygame.Rect((450,463), (text5.get_width(), text5.get_height()))
+
+
 # Main game loop
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            # Check if the mouse click is inside any of the option rectangles
+            if easy_rect.collidepoint(event.pos):
+                print("Easy mode selected")
+                # Add your code for handling easy mode here
+            elif medium_rect.collidepoint(event.pos):
+                print("Medium mode selected")
+                # Add your code for handling medium mode here
+            elif hard_rect.collidepoint(event.pos):
+                print("Hard mode selected")
+                # Add your code for handling hard mode here
 
     # Clear the screen
     screen.fill(BG_COLOR)
@@ -39,11 +55,11 @@ while True:
 
     screen.blit(text2, (WIDTH // 1.5 - text.get_width() // 2, HEIGHT // 1.5 - text.get_height() // 1.5))
 
-    screen.blit(text3, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 1.2 - text.get_height() // 1.2))
+    screen.blit(text3, (80,463))
 
-    screen.blit(text4, (WIDTH // 2 - text.get_width() // 8.3, HEIGHT // 1.2 - text.get_height() // 1.2))
+    screen.blit(text4, (250,463))
 
-    screen.blit(text5, (WIDTH // 1.2 - text.get_width() // 12, HEIGHT // 1.2 - text.get_height() // 1.2))
+    screen.blit(text5, (450,463))
 
 
 
