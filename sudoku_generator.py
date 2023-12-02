@@ -2,6 +2,8 @@ import sys
 import math, random
 
 import math
+
+
 class SudokuGenerator:
     '''
 	create a sudoku board - initialize class variables and set up the 2D board
@@ -73,7 +75,6 @@ class SudokuGenerator:
                 return False
         return True
 
-
     '''
 	Determines if num is contained in the specified column (vertical) of the board
     If num is already in the specified col, return False. Otherwise, return True
@@ -90,9 +91,6 @@ class SudokuGenerator:
             if self.board[i][col] == num:
                 return False
         return True
-
-
-
 
     '''
 	Determines if num is contained in the 3x3 box specified on the board
@@ -113,9 +111,6 @@ class SudokuGenerator:
                 if self.board[i][j] == num:
                     return False
         return True
-
-
-
 
     '''
     Determines if it is valid to enter num at (row, col) in the board
@@ -138,7 +133,6 @@ class SudokuGenerator:
 
         return False
 
-
     '''
     Fills the specified 3x3 box with values
     For each position, generates a random digit which has not yet been used in the box
@@ -151,7 +145,7 @@ class SudokuGenerator:
     '''
 
     def fill_box(self, row_start, col_start):
-        unused_in_box = random.randint(1,9)
+        unused_in_box = random.randint(1, 9)
         for i in range(row_start, row_start + 3):
             for j in range(col_start, col_start + 3):
                 loop_condition = True
@@ -161,8 +155,6 @@ class SudokuGenerator:
                         break
                     else:
                         unused_in_box = random.randint(1, 9)
-
-
 
         '''
         loop_condition = True
@@ -267,8 +259,8 @@ class SudokuGenerator:
         loop_condition = True
         counter = 0
         while loop_condition:
-            row = random.randint(0, self.row_length-1)
-            col = random.randint(0, self.row_length-1)
+            row = random.randint(0, self.row_length - 1)
+            col = random.randint(0, self.row_length - 1)
             if self.board[row][col] != 0:
                 self.board[row][col] = 0
                 counter += 1
@@ -305,9 +297,7 @@ def generate_sudoku(size, removed):
 def main():
     generate_sudoku(9, 10)
     obj = SudokuGenerator(9, 10)
-    obj.is_valid(3, 3 , 4)
+    obj.is_valid(3, 3, 4)
 
 
 main()
-
-
