@@ -17,6 +17,7 @@ game_over_font = pygame.font.Font(None, 40)
 font = pygame.font.SysFont(None, 72)
 text = font.render("Sudoku Game", True, (0, 128, 0))
 
+
 # Main game loop
 while True:
     for event in pygame.event.get():
