@@ -96,8 +96,6 @@ def check_num():
                 for j in range(0, 540, 60):
                     y_counter += 1
                     if y <= j:
-                        print("hi")
-
                         if event.type == pygame.KEYDOWN:
                             if pygame.K_1 <= event.key <= pygame.K_9:
                                 user_num = int(pygame.key.name(event.key))
