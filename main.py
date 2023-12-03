@@ -84,27 +84,25 @@ def draw_lines():
                      (536, 480), SMALL_LINE)
 
 def check_num():
-    for event in pygame.event.get():
-        # initializes event in pygame
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            x, y = pygame.mouse.get_pos()
-            if easy_rect.collidepoint(x):
-                x_counter = -1  # counter variable for x index
-                y_counter = -1  # counter variable for y index
-                x,y = pygame.mouse.get_pos()
-                for i in range(0,540,60):
-                    x_counter += 1
-                    if x<=i:
-                        for j in range(0,540,60):
-                            y_counter += 1
-                            if y<=j:
-                                for event in pygame.event.get():
-                                    if event.type == pygame.KEYDOWN:
-                                        if pygame.K_1 <= event.key <= pygame.K_9:
-                                            user_num = int(pygame.key.name(event.key))
-                                            if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
-                                                board_obj.board[x_counter, y_counter] = user_num
-                                                return True
+    if pygame.mouse.get_pressed()[0] == True:
+        x, y = pygame.mouse.get_pos()
+        print(x)
+        print(y)
+        x_counter = -1  # counter variable for x index
+        y_counter = -1  # counter variable for y index
+        for i in range(0, 540, 60):
+            x_counter += 1
+            if x <= i:
+                for j in range(0, 540, 60):
+                    y_counter += 1
+                    if y <= j:
+                        if event.type == pygame.KEYDOWN:
+                            if pygame.K_1 <= event.key <= pygame.K_9:
+                                user_num = int(pygame.key.name(event.key))
+                                print(user_num)
+                                if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
+                                    board_obj.board[x_counter, y_counter] = user_num
+                                    return True
 
 
 
@@ -152,6 +150,7 @@ while True:
                 restart_rect = pygame.Rect((225, 550), (text6.get_width(), text6.get_height()))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
+                check_num()
 
             elif medium_rect.collidepoint(event.pos) and counter == 0:
                 counter += 1
