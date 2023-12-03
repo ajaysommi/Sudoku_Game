@@ -5,6 +5,7 @@ import sys
 
 pygame.init()
 
+
 # Set up the main screen
 WIDTH, HEIGHT = 600, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -150,7 +151,9 @@ while True:
                 restart_rect = pygame.Rect((225, 550), (text6.get_width(), text6.get_height()))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
-                check_num()
+                while True:
+                    if check_num():
+                        sudoku_screen.blit()
 
             elif medium_rect.collidepoint(event.pos) and counter == 0:
                 counter += 1
