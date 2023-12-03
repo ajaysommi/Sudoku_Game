@@ -26,22 +26,19 @@ easy_rect = pygame.Rect((80, 463), (text3.get_width(), text3.get_height()))
 medium_rect = pygame.Rect((250, 463), (text4.get_width(), text4.get_height()))
 hard_rect = pygame.Rect((450, 463), (text5.get_width(), text5.get_height()))
 
-def main_gui():
-    screen.fill(BG_COLOR)
+screen.fill(BG_COLOR)
 
-    # Draw the title text
-    screen.blit(text, (WIDTH // 3 - text.get_width() // 3.3, HEIGHT // 3 - text.get_height() // 3))
-    screen.blit(text2, (WIDTH // 1.5 - text.get_width() // 2, HEIGHT // 1.5 - text.get_height() // 1.5))
-    screen.blit(text3, (80, 463))
-    screen.blit(text4, (250, 463))
-    screen.blit(text5, (450, 463))
-
-    pygame.display.flip()
-
-whole_board = pygame.Rect(0,540,540,540)
+# Draw the title text
+screen.blit(text, (WIDTH // 3 - text.get_width() // 3.3, HEIGHT // 3 - text.get_height() // 3))
+screen.blit(text2, (WIDTH // 1.5 - text.get_width() // 2, HEIGHT // 1.5 - text.get_height() // 1.5))
+screen.blit(text3, (80, 463))
+screen.blit(text4, (250, 463))
+screen.blit(text5, (450, 463))
 
 # Update the main display
 pygame.display.flip()
+
+
 
 
 def draw_lines():
@@ -86,31 +83,38 @@ def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 480),
                      (536, 480), SMALL_LINE)
 
-
 def check_num():
+    for event in pygame.event.get():
         # initializes event in pygame
-    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-        x, y = pygame.mouse.get_pos()
-        print(x)
-        print(y)
-        x_counter = -1  # counter variable for x index
-        y_counter = -1  # counter variable for y index
-        for i in range(0, 540, 60):
-            x_counter += 1
-            if x <= i:
-                for j in range(0, 540, 60):
-                    y_counter += 1
-                    if y <= j:
-                        if event.type == pygame.KEYDOWN:
-                            if pygame.K_1 <= event.key <= pygame.K_9:
-                                user_num = int(pygame.key.name(event.key))
-                                print(user_num)
-                                if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
-                                    board_obj.board[x_counter, y_counter] = user_num
-                                    return True
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            x, y = pygame.mouse.get_pos()
+            if easy_rect.collidepoint(x):
+                x_counter = -1  # counter variable for x index
+                y_counter = -1  # counter variable for y index
+                x,y = pygame.mouse.get_pos()
+                for i in range(0,540,60):
+                    x_counter += 1
+                    if x<=i:
+                        for j in range(0,540,60):
+                            y_counter += 1
+                            if y<=j:
+                                for event in pygame.event.get():
+                                    if event.type == pygame.KEYDOWN:
+                                        if pygame.K_1 <= event.key <= pygame.K_9:
+                                            user_num = int(pygame.key.name(event.key))
+                                            if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
+                                                board_obj.board[x_counter, y_counter] = user_num
+                                                return True
+
 
 
 counter = 0
+
+text6 = font3.render("RESET", True, (0, 128, 0))
+text7 = font3.render("RESTART", True, (0, 128, 0))
+text8 = font3.render("EXIT", True, (0, 128, 0))
+restart_rect = pygame.Rect((225, 550), (text6.get_width(), text6.get_height()))
+
 
 # Main game loop
 while True:
@@ -145,11 +149,9 @@ while True:
                 screen.blit(text6, (55, 550))
                 screen.blit(text7, (225, 550))
                 screen.blit(text8, (425, 550))
+                restart_rect = pygame.Rect((225, 550), (text6.get_width(), text6.get_height()))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
-                if easy_rect.collidepoint(55, 550):
-                    continue
-                check_num()
 
             elif medium_rect.collidepoint(event.pos) and counter == 0:
                 counter += 1
@@ -207,3 +209,11 @@ while True:
                 screen.blit(text8, (425, 550))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
+            if pygame.mouse.get_pressed()[0] == True:
+                if restart_rect.collidepoint(event.pos):
+                    pass
+
+
+
+
+
