@@ -99,7 +99,7 @@ def check_num():
                         if event.type == pygame.KEYDOWN:
                             if pygame.K_1 <= event.key <= pygame.K_9:
                                 user_num = int(pygame.key.name(event.key))
-                                print("user_num")
+                                print(user_num)
                                 if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
                                     board_obj.board[x_counter, y_counter] = user_num
                                     return True
