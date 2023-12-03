@@ -47,20 +47,9 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if easy_rect.collidepoint(event.pos):
                 print("Easy mode selected")
-                sudoku_screen = pygame.display.set_mode((WIDTH, HEIGHT))
+                sudoku_screen = pygame.display.set_mode((540, HEIGHT))
                 pygame.display.set_caption("Sudoku Board Easy")
                 sudoku_screen.fill(BG_COLOR)
-                for i in range(1, 9):
-                    if i % 3 == 0:
-                        pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, SQUARE_SIZE * i),
-                                         (WIDTH, SQUARE_SIZE * i), LINE_WIDTH * 2)
-                        pygame.draw.line(sudoku_screen, BLACK_COLOR, (SQUARE_SIZE * i, 0),
-                                         (SQUARE_SIZE * i, HEIGHT), LINE_WIDTH * 2)
-                    else:
-                        pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, SQUARE_SIZE * i),
-                                         (WIDTH, SQUARE_SIZE * i), LINE_WIDTH)
-                        pygame.draw.line(sudoku_screen, BLACK_COLOR, (SQUARE_SIZE * i, 0),
-                                         (SQUARE_SIZE * i, HEIGHT), LINE_WIDTH)
                 board_obj = SudokuGenerator(9, 30)
                 board_obj.fill_diagonal()
                 board_obj.fill_remaining(0, 0)
@@ -74,6 +63,26 @@ while True:
                             cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
                             pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
                             sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
+
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 180),
+                                     (536, 180),LINE_WIDTH)
+                # draw vertical lines
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (180, 0),
+                                     (180, 536), LINE_WIDTH)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 360),
+                                 (536, 360), LINE_WIDTH)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (360, 0),
+                                 (360, 536), LINE_WIDTH)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 540),
+                                 (536, 540), LINE_WIDTH)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (540, 0),
+                                 (540, 541), LINE_WIDTH)
 
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
