@@ -80,6 +80,22 @@ def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 480),
                      (536, 480), SMALL_LINE)
 
+def check_num():
+    for event in pygame.event.get():  # initializes event in pygame
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x_counter = -1  # counter variable for x index
+            y_counter = -1  # counter variable for y index
+            x,y = pygame.mouse.get_pos()
+            for i in range(0,540,60):
+                x_counter += 1
+                if x<=i:
+                    for j in range(0,540,60):
+                        y_counter += 1
+                        if y<=j:
+                            if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
+                                board_obj.board[x_counter, y_counter] = user_num
+                            break
+
 # Main game loop
 while True:
     for event in pygame.event.get():
