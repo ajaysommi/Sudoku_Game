@@ -45,7 +45,6 @@ while True:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            # Check if the mouse click is inside any of the option rectangles
             if easy_rect.collidepoint(event.pos):
                 print("Easy mode selected")
                 sudoku_screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -56,8 +55,6 @@ while True:
                 board_obj.fill_remaining(0, 0)
                 board_obj.remove_cells()
                 board_obj.print_board()
-
-                # Draw the Sudoku board on the new screen
                 for i in range(9):
                     for j in range(9):
                         cell_value = board_obj.board[i][j]
@@ -68,18 +65,50 @@ while True:
                             sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
 
                 pygame.display.flip()
-
-                # Set the frame rate
                 pygame.time.Clock().tick(60)
 
             elif medium_rect.collidepoint(event.pos):
                 print("Medium mode selected")
-                # Add your code for handling medium mode here
+                sudoku_screen = pygame.display.set_mode((WIDTH, HEIGHT))
+                pygame.display.set_caption("Sudoku Board Medium")
+                sudoku_screen.fill(BG_COLOR)
+                board_obj = SudokuGenerator(9, 40)
+                board_obj.fill_diagonal()
+                board_obj.fill_remaining(0, 0)
+                board_obj.remove_cells()
+                board_obj.print_board()
+                for i in range(9):
+                    for j in range(9):
+                        cell_value = board_obj.board[i][j]
+                        if cell_value != 0:
+                            cell_text = font.render(str(cell_value), True, (0, 128, 0))
+                            cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
+                            pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
+                            sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
+
+                pygame.display.flip()
+                pygame.time.Clock().tick(60)
             elif hard_rect.collidepoint(event.pos):
                 print("Hard mode selected")
-                # Add your code for handling hard mode here
+                sudoku_screen = pygame.display.set_mode((WIDTH, HEIGHT))
+                pygame.display.set_caption("Sudoku Board Hard")
+                sudoku_screen.fill(BG_COLOR)
+                board_obj = SudokuGenerator(9, 50)
+                board_obj.fill_diagonal()
+                board_obj.fill_remaining(0, 0)
+                board_obj.remove_cells()
+                board_obj.print_board()
+                for i in range(9):
+                    for j in range(9):
+                        cell_value = board_obj.board[i][j]
+                        if cell_value != 0:
+                            cell_text = font.render(str(cell_value), True, (0, 128, 0))
+                            cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
+                            pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
+                            sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
 
-    # Clear the main screen
+                pygame.display.flip()
+                pygame.time.Clock().tick(60)
 
 
 
