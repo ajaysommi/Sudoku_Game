@@ -81,10 +81,14 @@ def draw_lines():
                      (536, 480), SMALL_LINE)
 
 def check_num():
-    for event in pygame.event.get():  # initializes event in pygame
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            x_counter = -1  # counter variable for x index
-            y_counter = -1  # counter variable for y index
+    for event in pygame.event.get():
+        # initializes event in pygame
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            x = pygame.mouse.get_pos()
+            if easy_rect.collidepoint(x):
+                print("hi")
+            x_counter = 0  # counter variable for x index
+            y_counter = 0  # counter variable for y index
             x,y = pygame.mouse.get_pos()
             for i in range(0,540,60):
                 x_counter += 1
@@ -92,9 +96,15 @@ def check_num():
                     for j in range(0,540,60):
                         y_counter += 1
                         if y<=j:
-                            if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
-                                board_obj.board[x_counter, y_counter] = user_num
-                            break
+                            print(3)
+                            for event in pygame.event.get():
+                                if event.type == pygame.KEYDOWN:
+                                    if pygame.K_1 <= event.key <= pygame.K_9:
+                                        user_num = event.key
+                                        print(user_num)
+                                        if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
+                                            board_obj.board[x_counter, y_counter] = user_num
+
 
 # Main game loop
 while True:
@@ -130,6 +140,10 @@ while True:
                 screen.blit(text8, (425, 550))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
+                if easy_rect.collidepoint(55,550):
+                    continue
+                check_num()
+
             elif medium_rect.collidepoint(event.pos):
                 print("Medium mode selected")
                 sudoku_screen = pygame.display.set_mode((540, HEIGHT))
