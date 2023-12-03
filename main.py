@@ -104,6 +104,7 @@ def check_num():
                                         print(user_num)
                                         if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
                                             board_obj.board[x_counter, y_counter] = user_num
+counter = 0
 
 
 # Main game loop
@@ -113,7 +114,8 @@ while True:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if easy_rect.collidepoint(event.pos):
+            if easy_rect.collidepoint(event.pos) and counter == 0:
+                counter += 1
                 print("Easy mode selected")
                 sudoku_screen = pygame.display.set_mode((540, HEIGHT))
                 pygame.display.set_caption("Sudoku Board Easy")
@@ -144,7 +146,8 @@ while True:
                     continue
                 check_num()
 
-            elif medium_rect.collidepoint(event.pos):
+            elif medium_rect.collidepoint(event.pos) and counter == 0:
+                counter += 1
                 print("Medium mode selected")
                 sudoku_screen = pygame.display.set_mode((540, HEIGHT))
                 pygame.display.set_caption("Sudoku Board Medium")
@@ -171,7 +174,8 @@ while True:
                 screen.blit(text8, (425, 550))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
-            elif hard_rect.collidepoint(event.pos):
+            elif hard_rect.collidepoint(event.pos) and counter == 0:
+                counter += 1
                 print("Hard mode selected")
                 sudoku_screen = pygame.display.set_mode((540, HEIGHT))
                 pygame.display.set_caption("Sudoku Board Hard")
