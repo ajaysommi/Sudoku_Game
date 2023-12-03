@@ -105,6 +105,7 @@ def check_num():
                                     return True
 
 
+
 counter = 0
 
 text6 = font3.render("RESET", True, (0, 128, 0))
