@@ -38,6 +38,9 @@ screen.blit(text5, (450, 463))
 # Update the main display
 pygame.display.flip()
 
+
+
+
 def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 180),
                      (536, 180), LINE_WIDTH)
@@ -103,7 +106,14 @@ def check_num():
                                                 board_obj.board[x_counter, y_counter] = user_num
                                                 return True
 
+
+
 counter = 0
+
+text6 = font3.render("RESET", True, (0, 128, 0))
+text7 = font3.render("RESTART", True, (0, 128, 0))
+text8 = font3.render("EXIT", True, (0, 128, 0))
+restart_rect = pygame.Rect((225, 550), (text6.get_width(), text6.get_height()))
 
 
 # Main game loop
@@ -139,11 +149,9 @@ while True:
                 screen.blit(text6, (55, 550))
                 screen.blit(text7, (225, 550))
                 screen.blit(text8, (425, 550))
+                restart_rect = pygame.Rect((225, 550), (text6.get_width(), text6.get_height()))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
-                if easy_rect.collidepoint(55,550):
-                    continue
-                check_num()
 
             elif medium_rect.collidepoint(event.pos) and counter == 0:
                 counter += 1
@@ -201,6 +209,9 @@ while True:
                 screen.blit(text8, (425, 550))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
+            if pygame.mouse.get_pressed()[0] == True:
+                if restart_rect.collidepoint(event.pos):
+                    pass
 
 
 
