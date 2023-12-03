@@ -68,6 +68,28 @@ while True:
                 pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 180),
                                      (536, 180),LINE_WIDTH)
                 # draw vertical lines
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (60, 0),
+                                 (60, 536), SMALL_LINE)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (120, 0),
+                                 (120, 536), SMALL_LINE)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (240, 0),
+                                 (240, 536), SMALL_LINE)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (300, 0),
+                                 (300, 536), SMALL_LINE)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (360, 0),
+                                 (360, 536), LINE_WIDTH)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (420, 0),
+                                 (420, 536), SMALL_LINE)
+
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (480, 0),
+                                 (480, 536), SMALL_LINE)
+
+
 
                 pygame.draw.line(sudoku_screen, BLACK_COLOR, (180, 0),
                                      (180, 536), LINE_WIDTH)
