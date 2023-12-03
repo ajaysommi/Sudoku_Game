@@ -50,6 +50,13 @@ while True:
                 sudoku_screen = pygame.display.set_mode((WIDTH, HEIGHT))
                 pygame.display.set_caption("Sudoku Board Easy")
                 sudoku_screen.fill(BG_COLOR)
+                for i in range(1, 3):
+                    pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, SQUARE_SIZE * i),
+                                     (WIDTH, SQUARE_SIZE * i), LINE_WIDTH)
+                # draw vertical lines
+                for i in range(1, 3):
+                    pygame.draw.line(sudoku_screen, BLACK_COLOR, (SQUARE_SIZE * i, 0),
+                                     (SQUARE_SIZE * i, HEIGHT), LINE_WIDTH)
                 board_obj = SudokuGenerator(9, 30)
                 board_obj.fill_diagonal()
                 board_obj.fill_remaining(0, 0)
