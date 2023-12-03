@@ -83,6 +83,8 @@ while True:
 
                 pygame.draw.line(sudoku_screen, BLACK_COLOR, (540, 0),
                                  (540, 541), LINE_WIDTH)
+                pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 0),
+                                 (540, 0), LINE_WIDTH)
 
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
