@@ -39,21 +39,11 @@ while True:
             # Check if the mouse click is inside any of the option rectangles
             if easy_rect.collidepoint(event.pos):
                 print("Easy mode selected")
-                pygame.init()
-                WIDTH, HEIGHT = 600, 600
-                screen = pygame.display.set_mode((WIDTH, HEIGHT))
-                pygame.display.set_caption("BOARD1")
-                number_font = pygame.font.Font(None, 400)
-                game_over_font = pygame.font.Font(None, 40)
-                font = pygame.font.SysFont(None, 72)
-                font2 = pygame.font.SysFont(None, 45)
-                font3 = pygame.font.SysFont(None, 30)
-                text = font.render("Welcome to BOARD1!", True, (0, 128, 0))
-                text2 = font2.render("Select Game:", True, (0, 128, 0))
-                text3 = font3.render("Easy", True, (0, 128, 0))
-                text4 = font3.render("Medium", True, (0, 128, 0))
-                text5 = font3.render("Hard", True, (0, 128, 0))
-
+                board_obj = SudokuGenerator(9,60)
+                board_obj.fill_diagonal()
+                board_obj.fill_remaining(0,0)
+                board_obj.remove_cells()
+                board_obj.print_board()
                 # Add your code for handling easy mode here
             elif medium_rect.collidepoint(event.pos):
                 print("Medium mode selected")
