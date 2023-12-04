@@ -84,11 +84,9 @@ def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 480),
                      (536, 480), SMALL_LINE)
 
-def check_num():
+def check_num(board_obj):
     if pygame.mouse.get_pressed()[0] == True:
         x, y = pygame.mouse.get_pos()
-        print(x)
-        print(y)
         x_counter = -1  # counter variable for x index
         y_counter = -1  # counter variable for y index
         for i in range(0, 540, 60):
@@ -100,11 +98,20 @@ def check_num():
                         if event.type == pygame.KEYDOWN:
                             if pygame.K_1 <= event.key <= pygame.K_9:
                                 user_num = int(pygame.key.name(event.key))
-                                print(user_num)
                                 if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
-                                    board_obj.board[x_counter, y_counter] = user_num
+                                    board_obj.board[x_counter][y_counter] = user_num
                                     return True
 
+
+def draw_board():
+    for i in range(9):
+        for j in range(9):
+            cell_value = board_obj.board[i][j]
+            if cell_value != 0:
+                cell_text = font.render(str(cell_value), True, (0, 128, 0))
+                cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
+                pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
+                sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
 
 
 counter = 0
@@ -112,11 +119,13 @@ counter = 0
 text6 = font3.render("RESET", True, (0, 128, 0))
 text7 = font3.render("RESTART", True, (0, 128, 0))
 text8 = font3.render("EXIT", True, (0, 128, 0))
-restart_rect = pygame.Rect((225, 550), (text6.get_width(), text6.get_height()))
+restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
+reset_rect = pygame.Rect((55,550), (text6.get_width(), text6.get_height()))
+exit_rect = pygame.Rect((425,550), (text8.get_width(), text8.get_height()))
 
-
+game_continue = True
 # Main game loop
-while True:
+while game_continue:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -133,14 +142,7 @@ while True:
                 board_obj.fill_remaining(0, 0)
                 board_obj.remove_cells()
                 board_obj.print_board()
-                for i in range(9):
-                    for j in range(9):
-                        cell_value = board_obj.board[i][j]
-                        if cell_value != 0:
-                            cell_text = font.render(str(cell_value), True, (0, 128, 0))
-                            cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
-                            pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
-                            sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
+                draw_board()
                 draw_lines()
                 text6 = font3.render("RESET", True, (0, 128, 0))
                 text7 = font3.render("RESTART", True, (0, 128, 0))
@@ -148,12 +150,9 @@ while True:
                 screen.blit(text6, (55, 550))
                 screen.blit(text7, (225, 550))
                 screen.blit(text8, (425, 550))
-                restart_rect = pygame.Rect((225, 550), (text6.get_width(), text6.get_height()))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
-                while True:
-                    if check_num():
-                        sudoku_screen.blit()
+
 
             elif medium_rect.collidepoint(event.pos) and counter == 0:
                 counter += 1
@@ -166,14 +165,7 @@ while True:
                 board_obj.fill_remaining(0, 0)
                 board_obj.remove_cells()
                 board_obj.print_board()
-                for i in range(9):
-                    for j in range(9):
-                        cell_value = board_obj.board[i][j]
-                        if cell_value != 0:
-                            cell_text = font.render(str(cell_value), True, (0, 128, 0))
-                            cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
-                            pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
-                            sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
+                draw_board()
                 draw_lines()
                 text6 = font3.render("RESET", True, (0, 128, 0))
                 text7 = font3.render("RESTART", True, (0, 128, 0))
@@ -194,14 +186,7 @@ while True:
                 board_obj.fill_remaining(0, 0)
                 board_obj.remove_cells()
                 board_obj.print_board()
-                for i in range(9):
-                    for j in range(9):
-                        cell_value = board_obj.board[i][j]
-                        if cell_value != 0:
-                            cell_text = font.render(str(cell_value), True, (0, 128, 0))
-                            cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
-                            pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
-                            sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
+                draw_board()
                 draw_lines()
                 text6 = font3.render("RESET", True, (0, 128, 0))
                 text7 = font3.render("RESTART", True, (0, 128, 0))
@@ -214,6 +199,12 @@ while True:
             if pygame.mouse.get_pressed()[0] == True:
                 if restart_rect.collidepoint(event.pos):
                     pass
+                elif reset_rect.collidepoint(event.pos):
+                    pass
+                elif exit_rect.collidepoint(event.pos):
+                    game_continue = False
+
+
 
 
 
