@@ -147,6 +147,8 @@ x_val, y_val = None, None
 game_continue = True
 # Main game loop
 
+
+# Parsh
 def check_fill():
     num_counter = 0
     for i in range(9):
@@ -161,41 +163,6 @@ def check_fill():
                 if valid_checker == False:
                     game_win_screen()  # CHANGE TO GAME OVER
         game_win_screen()  # winner screen if false doesn't get tripped inside loop
-
-
-
-
-
-
-
-
-# Parsh code
-def check_fill():
-    for i in range(9):
-        for j in range(9):
-            if board_obj.board[i][j] == 0:
-                return False
-    return True
-
-
-if check_fill():
-    def check_winner():
-        counter = 0
-        x = 0
-        y = 0
-        for i in range(9):
-            for j in range(9):
-                for z in range(9):
-                    if board_obj.board.is_valid(x, y, z):
-                        return True
-                x += 1
-                y += 1
-
-
-
-
-
-        game_win_screen()
 
 while game_continue:
     for event in pygame.event.get():
