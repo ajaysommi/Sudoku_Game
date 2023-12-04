@@ -45,7 +45,7 @@ pygame.display.flip()
 def game_win_screen():
     WIDTH, HEIGHT = 600, 600
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Sudoku")
+    pygame.display.set_caption("Winner!")
     SOFTGRAY = 240, 248, 255
     screen.fill(SOFTGRAY)
     win_text = font4.render("Game Won!", True, (0, 128, 0))
@@ -55,6 +55,22 @@ def game_win_screen():
     reset_rect = None
     restart_rect = None
     exit_rect = pygame.Rect((250,350), (text8.get_width(), text8.get_height()))
+    pygame.display.update()
+    pygame.time.Clock().tick(60)
+
+def game_over():
+    WIDTH, HEIGHT = 600, 600
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Winner!")
+    SOFTGRAY = 240, 248, 255
+    screen.fill(SOFTGRAY)
+    win_text = font4.render("Game OVER!", True, (0, 128, 0))
+    screen.blit(win_text, (WIDTH // 2.5 - win_text.get_width() // 3.3, HEIGHT // 3 - win_text.get_height() // 3))
+    text8 = font2.render("RESTART", True, (0, 128, 0))
+    screen.blit(text8, (200, 350))
+    reset_rect = None
+    restart_rect = None
+    exit_rect = pygame.Rect((250, 350), (text8.get_width(), text8.get_height()))
     pygame.display.update()
     pygame.time.Clock().tick(60)
 
@@ -100,6 +116,7 @@ def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 480),
                      (536, 480), SMALL_LINE)
 
+'''''
 def check_num():
     if pygame.mouse.get_pressed()[0] == True:
         global x, y
@@ -119,8 +136,7 @@ def check_num():
                                 if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
                                     board_obj.board[x_counter][y_counter] = user_num
                                     return True
-
-
+'''
 def draw_board():
     for i in range(9):
         for j in range(9):
@@ -141,6 +157,7 @@ restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
 reset_rect = pygame.Rect((55,550), (text6.get_width(), text6.get_height()))
 exit_rect = pygame.Rect((425,550), (text8.get_width(), text8.get_height()))
 board_obj = None
+board_new = None
 x_counter, y_counter = None, None
 x, y = None, None
 x_val, y_val = None, None
@@ -208,6 +225,7 @@ while game_continue:
                 board_obj.fill_remaining(0, 0)
                 board_obj.remove_cells()
                 board_obj.print_board()
+                board_new = board_obj
                 draw_board()
                 draw_lines()
                 text6 = font3.render("RESET", True, (0, 128, 0))
@@ -220,7 +238,7 @@ while game_continue:
                 pygame.time.Clock().tick(60)
             if pygame.mouse.get_pressed()[0] == True:
                 if restart_rect.collidepoint(event.pos):
-                    pass
+                    game_over()
                 elif reset_rect.collidepoint(event.pos):
                     game_win_screen()
                 elif exit_rect.collidepoint(event.pos):
@@ -248,7 +266,7 @@ while game_continue:
                 if board_obj.board[y_counter][x_counter] == 0:
                     print(x_counter, y_counter)
                     board_obj.board[y_counter][x_counter] = user_num
-                    user_numgen = font.render(str(user_num), True, (0, 128, 0))
+                    user_num_gen = font.render(str(user_num), True, (0, 128, 0))
                     if x_counter == 0:
                         x_val = 30 - 10
                     if x_counter == 1:
@@ -285,9 +303,9 @@ while game_continue:
                         y_val = 450 - 19
                     if y_counter == 8:
                         y_val = 510 - 19
-                    screen.blit(user_numgen, (x_val, y_val))
+                    screen.blit(user_num_gen, (x_val, y_val))
                     pygame.display.update()
-                    board_obj.print_board()
+
 
 
 
