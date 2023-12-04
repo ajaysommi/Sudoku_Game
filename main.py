@@ -3,6 +3,7 @@ from constants import *
 from sudoku_generator import SudokuGenerator
 import sys
 
+
 pygame.init()
 
 
@@ -17,6 +18,7 @@ game_over_font = pygame.font.Font(None, 40)
 font = pygame.font.SysFont(None, 72)
 font2 = pygame.font.SysFont(None, 45)
 font3 = pygame.font.SysFont(None, 30)
+font4 = pygame.font.SysFont(None, 75)
 text = font.render("Welcome to Sudoku!", True, (0, 128, 0))
 text2 = font2.render("Select Game Mode:", True, (0, 128, 0))
 text3 = font3.render("Easy", True, (0, 128, 0))
@@ -40,7 +42,20 @@ screen.blit(text5, (450, 463))
 pygame.display.flip()
 
 
-
+def game_win_screen():
+    WIDTH, HEIGHT = 600, 600
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Sudoku")
+    screen.fill(BG_COLOR)
+    win_text = font4.render("Game Won!", True, (0, 128, 0))
+    screen.blit(win_text, (WIDTH // 2.5 - win_text.get_width() // 3.3, HEIGHT // 3 - win_text.get_height() // 3))
+    text8 = font2.render("EXIT", True, (0, 128, 0))
+    screen.blit(text8, (250, 350))
+    reset_rect = None
+    restart_rect = None
+    exit_rect = pygame.Rect((250,350), (text8.get_width(), text8.get_height()))
+    pygame.display.flip()
+    pygame.time.Clock().tick(60)
 
 def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 180),
@@ -124,7 +139,8 @@ text8 = font3.render("EXIT", True, (0, 128, 0))
 restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
 reset_rect = pygame.Rect((55,550), (text6.get_width(), text6.get_height()))
 exit_rect = pygame.Rect((425,550), (text8.get_width(), text8.get_height()))
-
+board_obj = None
+x_counter, y_counter = None, None
 game_continue = True
 # Main game loop
 while game_continue:
@@ -154,7 +170,6 @@ while game_continue:
                 screen.blit(text8, (425, 550))
                 pygame.display.flip()
                 pygame.time.Clock().tick(60)
-
 
 
 
@@ -204,30 +219,32 @@ while game_continue:
                 if restart_rect.collidepoint(event.pos):
                     pass
                 elif reset_rect.collidepoint(event.pos):
-                    pass
+                    game_win_screen()
                 elif exit_rect.collidepoint(event.pos):
                     game_continue = False
 
             if pygame.mouse.get_pressed()[0] == True:
                 x, y = pygame.mouse.get_pos()
                 print(x, y)
-                x_counter = -1  # counter variable for x index
-                y_counter = -1  # counter variable for y index
+                x_counter = 9  # counter variable for x index
+                y_counter = 9  # counter variable for y index
                 for i in range(0, 540, 60):
-                    x_counter += 1
                     if x <= i:
-                        for j in range(0, 540, 60):
-                            y_counter += 1
-                            if y <= j:
-                                if event.type == pygame.KEYDOWN:
-                                    if pygame.K_1 <= event.key <= pygame.K_9:
-                                        user_num = int(pygame.key.name(event.key))
-                                        if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
-                                            board_obj.board[x_counter][y_counter] = user_num
-                                            user_numgen = font.render(str(user_num), True, (0, 128, 0))
-                                            num_rect = pygame.Rect(x_counter * 60, y_counter * 60, 60, 60)
-                                            pygame.draw.rect(screen, (255, 255, 255), num_rect)
-                                            screen.blit(user_numgen, (x, y))
+                        x_counter -= 1
+                for j in range(0, 540, 60):
+                    if y <= j:
+                        y_counter -= 1
+                if event.type == pygame.KEYDOWN:
+                    if pygame.key.name(event.key).isdigit():
+                        print("hi")
+                    if pygame.K_1 <= event.key <= pygame.K_9:
+                        user_num = int(pygame.key.name(event.key))
+                        if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
+                            board_obj.board[x_counter][y_counter] = user_num
+                            user_numgen = font.render(str(user_num), True, (0, 128, 0))
+                            num_rect = pygame.Rect(x_counter * 60, y_counter * 60, 60, 60)
+                            pygame.draw.rect(screen, (255, 255, 255), num_rect)
+                            screen.blit(user_numgen, (x, y))
 
 
 
