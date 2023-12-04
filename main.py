@@ -55,7 +55,7 @@ def game_win_screen():
     reset_rect = None
     restart_rect = None
     exit_rect = pygame.Rect((250,350), (text8.get_width(), text8.get_height()))
-    pygame.display.flip()
+    pygame.display.update()
     pygame.time.Clock().tick(60)
 
 def draw_lines():
@@ -143,6 +143,7 @@ exit_rect = pygame.Rect((425,550), (text8.get_width(), text8.get_height()))
 board_obj = None
 x_counter, y_counter = None, None
 x, y = None, None
+x_val, y_val = None, None
 game_continue = True
 # Main game loop
 while game_continue:
@@ -170,7 +171,7 @@ while game_continue:
                 screen.blit(text6, (55, 550))
                 screen.blit(text7, (225, 550))
                 screen.blit(text8, (425, 550))
-                pygame.display.flip()
+                pygame.display.update()
                 pygame.time.Clock().tick(60)
 
 
@@ -194,7 +195,7 @@ while game_continue:
                 screen.blit(text6, (55, 550))
                 screen.blit(text7, (225, 550))
                 screen.blit(text8, (425, 550))
-                pygame.display.flip()
+                pygame.display.update()
                 pygame.time.Clock().tick(60)
             elif hard_rect.collidepoint(event.pos) and counter == 0:
                 counter += 1
@@ -215,7 +216,7 @@ while game_continue:
                 screen.blit(text6, (55, 550))
                 screen.blit(text7, (225, 550))
                 screen.blit(text8, (425, 550))
-                pygame.display.flip()
+                pygame.display.update()
                 pygame.time.Clock().tick(60)
             if pygame.mouse.get_pressed()[0] == True:
                 if restart_rect.collidepoint(event.pos):
@@ -229,12 +230,14 @@ while game_continue:
                 x, y = pygame.mouse.get_pos()
                 x_counter = 8  # counter variable for x index
                 y_counter = 8  # counter variable for y index
-                for i in range(0, 540, 60):
+                for i in range(0, 510, 60):
                     if x <= i:
                         x_counter -= 1
-                for j in range(0, 540, 60):
+                for j in range(0, 510, 60):
                     if y <= j:
                         y_counter -= 1
+
+
         if event.type == pygame.KEYDOWN:
             if pygame.key.name(event.key).isdigit():
                 user_num = pygame.key.name(event.key)
@@ -244,9 +247,7 @@ while game_continue:
                     print(x_counter, y_counter)
                     board_obj.board[y_counter][x_counter] = user_num
                     user_numgen = font.render(str(user_num), True, (0, 128, 0))
-                    num_rect = pygame.Rect(x_counter * 60, y_counter * 60, 60, 60)
-                    pygame.draw.rect(screen, (255, 255, 255), num_rect)
-                    screen.blit(user_numgen, (x, y))
+                    screen.blit(user_numgen, (x,y))
                     pygame.display.update()
                     board_obj.print_board()
 
