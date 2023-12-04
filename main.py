@@ -142,6 +142,7 @@ reset_rect = pygame.Rect((55,550), (text6.get_width(), text6.get_height()))
 exit_rect = pygame.Rect((425,550), (text8.get_width(), text8.get_height()))
 board_obj = None
 x_counter, y_counter = None, None
+x, y = None, None
 game_continue = True
 # Main game loop
 while game_continue:
@@ -227,25 +228,28 @@ while game_continue:
             if pygame.mouse.get_pressed()[0] == True:
                 x, y = pygame.mouse.get_pos()
                 print(x, y)
-                x_counter = 9  # counter variable for x index
-                y_counter = 9  # counter variable for y index
+                x_counter = 8  # counter variable for x index
+                y_counter = 8  # counter variable for y index
                 for i in range(0, 540, 60):
                     if x <= i:
                         x_counter -= 1
                 for j in range(0, 540, 60):
                     if y <= j:
                         y_counter -= 1
-                if event.type == pygame.KEYDOWN:
-                    if pygame.key.name(event.key).isdigit():
-                        print("hi")
-                    if pygame.K_1 <= event.key <= pygame.K_9:
-                        user_num = int(pygame.key.name(event.key))
-                        if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
-                            board_obj.board[x_counter][y_counter] = user_num
-                            user_numgen = font.render(str(user_num), True, (0, 128, 0))
-                            num_rect = pygame.Rect(x_counter * 60, y_counter * 60, 60, 60)
-                            pygame.draw.rect(screen, (255, 255, 255), num_rect)
-                            screen.blit(user_numgen, (x, y))
+        if event.type == pygame.KEYDOWN:
+            if pygame.key.name(event.key).isdigit():
+                user_num = pygame.key.name(event.key)
+            if pygame.K_1 <= event.key <= pygame.K_9:
+                user_num = int(pygame.key.name(event.key))
+
+                if board_obj.is_valid(x_counter, y_counter, user_num):
+                    print(x_counter, y_counter)
+                    board_obj.board[x_counter][y_counter] = user_num
+                    user_numgen = font.render(str(user_num), True, (0, 128, 0))
+                    num_rect = pygame.Rect(x_counter * 60, y_counter * 60, 60, 60)
+                    pygame.draw.rect(screen, (255, 255, 255), num_rect)
+                    screen.blit(user_numgen, (x, y))
+                    pygame.display.update()
 
 
 
