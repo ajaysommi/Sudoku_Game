@@ -46,7 +46,8 @@ def game_win_screen():
     WIDTH, HEIGHT = 600, 600
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Sudoku")
-    screen.fill(BG_COLOR)
+    SOFTGRAY = 240, 248, 255
+    screen.fill(SOFTGRAY)
     win_text = font4.render("Game Won!", True, (0, 128, 0))
     screen.blit(win_text, (WIDTH // 2.5 - win_text.get_width() // 3.3, HEIGHT // 3 - win_text.get_height() // 3))
     text8 = font2.render("EXIT", True, (0, 128, 0))
