@@ -174,6 +174,7 @@ while game_continue:
                 board_obj.remove_cells()
                 board_obj.print_board()
 
+
                 draw_board()
                 draw_lines()
                 text6 = font3.render("RESET", True, (0, 128, 0))
