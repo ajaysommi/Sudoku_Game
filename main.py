@@ -153,7 +153,15 @@ def check_fill():
         for j in range(9):
             if board_obj.board[i][j] == 0:
                 num_counter += 1
-    return True
+
+    if num_counter == 0:
+        for x in range(9):
+            for y in range(9):
+                valid_checker = board_obj.is_valid(x, y, board_obj.board[x][y])
+                if valid_checker == False:
+                    game_win_screen()  # CHANGE TO GAME OVER
+        game_win_screen()  # winner screen if false doesn't get tripped inside loop
+
 
 
 
