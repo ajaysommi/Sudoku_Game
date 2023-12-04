@@ -61,7 +61,7 @@ def game_win_screen():
 def game_over():
     WIDTH, HEIGHT = 600, 600
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Winner!")
+    pygame.display.set_caption("LOSER!")
     SOFTGRAY = 240, 248, 255
     screen.fill(SOFTGRAY)
     win_text = font4.render("Game OVER!", True, (0, 128, 0))
@@ -72,7 +72,6 @@ def game_over():
     restart_rect = None
     exit_rect = pygame.Rect((250, 350), (text8.get_width(), text8.get_height()))
     pygame.display.update()
-    pygame.time.Clock().tick(60)
 
 def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 180),
@@ -174,12 +173,15 @@ def check_fill():
                 num_counter += 1
 
     if num_counter == 0:
+        counter = 0
         for x in range(9):
             for y in range(9):
                 valid_checker = board_obj.is_valid(x, y, board_obj.board[x][y])
                 if valid_checker == False:
-                    game_win_screen()  # CHANGE TO GAME OVER
-        game_win_screen()  # winner screen if false doesn't get tripped inside loop
+                    game_over()
+                    counter = 1
+        if counter == 0:
+            game_win_screen()  # winner screen if false doesn't get tripped inside loop
 
 while game_continue:
     for event in pygame.event.get():
@@ -273,19 +275,7 @@ while game_continue:
                 for j in range(0, 510, 60):
                     if y <= j:
                         y_counter -= 1
-                if check_fill():
-                    def check_winner():
 
-                        x = 0
-                        y = 0
-                        for i in range(x + 1):
-                            for j in range(y + 1):
-                               if board_obj.board.is_valid(x, y):
-                                    x += 1
-                                    y += 1
-
-
-                        game_win_screen()
 
 
 
@@ -341,6 +331,7 @@ while game_continue:
                         y_val = 510 - 19
                     screen.blit(user_num_gen, (x_val, y_val))
                     pygame.display.update()
+                    check_fill()
 
 
 
