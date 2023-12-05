@@ -253,6 +253,7 @@ while total_game_loop:  # added additional while loop to iterate through when re
                     board_obj.fill_remaining(0, 0)
                     board_obj.remove_cells()
                     board_obj.print_board()
+                    old_board = copy.deepcopy(board_obj.board)
                     draw_board()
                     draw_lines()
                     text6 = font3.render("RESET", True, (0, 128, 0))
@@ -274,6 +275,7 @@ while total_game_loop:  # added additional while loop to iterate through when re
                     board_obj.fill_remaining(0, 0)
                     board_obj.remove_cells()
                     board_obj.print_board()
+                    old_board = copy.deepcopy(board_obj.board)
                     board_new = board_obj
                     draw_board()
                     draw_lines()
