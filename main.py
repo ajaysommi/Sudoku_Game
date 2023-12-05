@@ -40,6 +40,27 @@ screen.blit(text5, (450, 463))
 # Update the main display
 pygame.display.flip()
 
+counter = 0
+
+text6 = font3.render("RESET", True, (0, 128, 0))
+text7 = font3.render("RESTART", True, (0, 128, 0))
+text8 = font3.render("EXIT", True, (0, 128, 0))
+restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
+reset_rect = pygame.Rect((55, 550), (text6.get_width(), text6.get_height()))
+exit_rect = pygame.Rect((425, 550), (text8.get_width(), text8.get_height()))
+board_obj = None
+old_board = None
+x_counter, y_counter = None, None
+x, y = None, None
+x_val, y_val = None, None
+game_continue = True
+sudoku_screen = None
+
+global restart_end_screen
+restart_end_screen = 0
+
+EXIT_CODE = 0  # initializes severity level for exit condition
+total_game_loop = True
 
 def game_win_screen():
     WIDTH, HEIGHT = 600, 600
@@ -63,13 +84,13 @@ def game_over():
     pygame.display.set_caption("LOSER!")
     SOFTGRAY = 240, 248, 255
     screen.fill(SOFTGRAY)
-    win_text = font4.render("Game OVER!", True, (0, 128, 0))
-    screen.blit(win_text, (WIDTH // 2.5 - win_text.get_width() // 3.3, HEIGHT // 3 - win_text.get_height() // 3))
+    lose_text = font4.render("Game OVER!", True, (0, 128, 0))
+    screen.blit(lose_text, (WIDTH // 2.5 - lose_text.get_width() // 3.3, HEIGHT // 3 - lose_text.get_height() // 3))
     text8 = font2.render("RESTART", True, (0, 128, 0))
     screen.blit(text8, (200, 440))
     reset_rect = None
     restart_rect = None
-    exit_rect = pygame.Rect((250, 350), (text8.get_width(), text8.get_height()))
+    exit_rect = None
     pygame.display.update()
 
 
@@ -115,30 +136,6 @@ def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 480),
                      (536, 480), SMALL_LINE)
 
-
-'''''
-def check_num():
-    if pygame.mouse.get_pressed()[0] == True:
-        global x, y
-        x, y = pygame.mouse.get_pos()
-        print(x,y)
-        x_counter = -1  # counter variable for x index
-        y_counter = -1  # counter variable for y index
-        for i in range(0, 540, 60):
-            x_counter += 1
-            if x <= i:
-                for j in range(0, 540, 60):
-                    y_counter += 1
-                    if y <= j:
-                        if event.type == pygame.KEYDOWN:
-                            if pygame.K_1 <= event.key <= pygame.K_9:
-                                user_num = int(pygame.key.name(event.key))
-                                if SudokuGenerator.is_valid(x_counter, y_counter, user_num):
-                                    board_obj.board[x_counter][y_counter] = user_num
-                                    return True
-'''
-
-
 def draw_board():
     for i in range(9):
         for j in range(9):
@@ -148,26 +145,6 @@ def draw_board():
                 cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
                 pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
                 sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
-
-
-counter = 0
-
-text6 = font3.render("RESET", True, (0, 128, 0))
-text7 = font3.render("RESTART", True, (0, 128, 0))
-text8 = font3.render("EXIT", True, (0, 128, 0))
-restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
-reset_rect = pygame.Rect((55, 550), (text6.get_width(), text6.get_height()))
-exit_rect = pygame.Rect((425, 550), (text8.get_width(), text8.get_height()))
-board_obj = None
-old_board = None
-x_counter, y_counter = None, None
-x, y = None, None
-x_val, y_val = None, None
-game_continue = True
-sudoku_screen = None
-
-global restart_end_screen
-restart_end_screen = 0  # initializes restart counter variable
 
 
 def check_fill():
@@ -207,17 +184,16 @@ def check_fill():
 
         if game_winner:
             game_win_screen()
-            restart_end_screen += 1
+            restart_end_screen += 2
 
-
-EXIT_CODE = 0  # initializes severity level for exit condition
-total_game_loop = True
 while total_game_loop:  # added additional while loop to iterate through when restarted
-    while game_continue:  # default while loop used to run game
-        restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))  # restated restart location
-        easy_rect = pygame.Rect((80, 463), (text3.get_width(), text3.get_height()))
-        medium_rect = pygame.Rect((250, 463), (text4.get_width(), text4.get_height()))
-        hard_rect = pygame.Rect((450, 463), (text5.get_width(), text5.get_height()))
+    easy_rect = pygame.Rect((80, 463), (text3.get_width(), text3.get_height()))
+    medium_rect = pygame.Rect((250, 463), (text4.get_width(), text4.get_height()))
+    hard_rect = pygame.Rect((450, 463), (text5.get_width(), text5.get_height()))
+    reset_rect = pygame.Rect((0, 0), (text6.get_width(), text6.get_height()))
+    restart_rect = pygame.Rect((0, 0), (text7.get_width(), text7.get_height()))  # restated restart location
+    exit_rect = pygame.Rect((0, 0), (text8.get_width(), text8.get_height()))
+    while game_continue:
         for event in pygame.event.get():
             loop_reset = False
             if event.type == pygame.QUIT:
@@ -246,6 +222,12 @@ while total_game_loop:  # added additional while loop to iterate through when re
                     screen.blit(text8, (425, 550))
                     pygame.display.update()
                     pygame.time.Clock().tick(60)
+                    easy_rect = pygame.Rect((0, 0), (text3.get_width(), text3.get_height()))
+                    medium_rect = pygame.Rect((0, 0), (text4.get_width(), text4.get_height()))
+                    hard_rect = pygame.Rect((0, 0), (text5.get_width(), text5.get_height()))
+                    restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
+                    reset_rect = pygame.Rect((55, 550), (text6.get_width(), text6.get_height()))
+                    exit_rect = pygame.Rect((425, 550), (text8.get_width(), text8.get_height()))
                 elif medium_rect.collidepoint(event.pos):
                     counter += 1
                     print("Medium mode selected")
@@ -268,6 +250,12 @@ while total_game_loop:  # added additional while loop to iterate through when re
                     screen.blit(text8, (425, 550))
                     pygame.display.update()
                     pygame.time.Clock().tick(60)
+                    easy_rect = pygame.Rect((0, 0), (text3.get_width(), text3.get_height()))
+                    medium_rect = pygame.Rect((0, 0), (text4.get_width(), text4.get_height()))
+                    hard_rect = pygame.Rect((0, 0), (text5.get_width(), text5.get_height()))
+                    restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
+                    reset_rect = pygame.Rect((55, 550), (text6.get_width(), text6.get_height()))
+                    exit_rect = pygame.Rect((425, 550), (text8.get_width(), text8.get_height()))
                 elif hard_rect.collidepoint(event.pos):
                     counter += 1
                     print("Hard mode selected")
@@ -291,6 +279,12 @@ while total_game_loop:  # added additional while loop to iterate through when re
                     screen.blit(text8, (425, 550))
                     pygame.display.update()
                     pygame.time.Clock().tick(60)
+                    easy_rect = pygame.Rect((0, 0), (text3.get_width(), text3.get_height()))
+                    medium_rect = pygame.Rect((0, 0), (text4.get_width(), text4.get_height()))
+                    hard_rect = pygame.Rect((0, 0), (text5.get_width(), text5.get_height()))
+                    restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
+                    reset_rect = pygame.Rect((55, 550), (text6.get_width(), text6.get_height()))
+                    exit_rect = pygame.Rect((425, 550), (text8.get_width(), text8.get_height()))
                 if pygame.mouse.get_pressed()[0]:
                     if restart_rect.collidepoint(event.pos):
                         WIDTH, HEIGHT = 600, 600
@@ -360,7 +354,6 @@ while total_game_loop:  # added additional while loop to iterate through when re
                     break
                 if pygame.mouse.get_pressed()[0]:
                     x, y = pygame.mouse.get_pos()
-                    print(x, y)
                     x_counter = 8  # counter variable for x index
                     y_counter = 8  # counter variable for y index
                     for i in range(0, 510, 60):
@@ -420,7 +413,6 @@ while total_game_loop:  # added additional while loop to iterate through when re
                 if pygame.K_1 <= event.key <= pygame.K_9:
                     user_num = int(pygame.key.name(event.key))
                     if board_obj.board[y_counter][x_counter] == 0:
-                        print(x_counter, y_counter)
                         board_obj.board[y_counter][x_counter] = user_num
                         user_num_gen = font.render(str(user_num), True, (0, 128, 0))
                         if x_counter == 0:
@@ -464,16 +456,24 @@ while total_game_loop:  # added additional while loop to iterate through when re
                         check_fill()  # verifies if board completely filled and if user wins or loses
                         if restart_end_screen >= 1:  # condition is true when end of game reached
                             # reinitialized restart_rect location
-                            restart_rect = pygame.Rect((250, 450), (text8.get_width(), text8.get_height()))
+                            restart_rect = pygame.Rect((200, 440), (text8.get_width(), text8.get_height()))
                             for restart_loop in pygame.event.get():  # separate for loop for check for restart
                                 if pygame.mouse.get_pressed()[0]:
                                     if restart_rect.collidepoint(event.pos):
                                         EXIT_CODE = 1  # initializes severity level to 1
                                         game_continue = False  # exits inner loop if restart button selected
                                         pygame.display.update()
-
+                        if restart_end_screen >= 2:  # condition is true when end of game reached
+                            # reinitialized restart_rect location
+                            exit_rect = pygame.Rect((250, 350), (text8.get_width(), text8.get_height()))
+                            for exit_loop in pygame.event.get():
+                                if pygame.mouse.get_pressed()[0]:
+                                    if exit_rect.collidepoint(event.pos):
+                                        EXIT_CODE = 2  # initializes severity level to 2
+                                        game_continue = False
+                                        pygame.display.update()
     if EXIT_CODE == 1:
         game_continue = True
-        continue  # continues back to first while loop
+        continue
     elif EXIT_CODE == 2:
-        total_game_loop = False  # completely ends program
+        total_game_loop = False
