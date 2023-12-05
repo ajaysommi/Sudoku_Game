@@ -172,6 +172,7 @@ def check_fill():
             if board_obj.board[i][j] == 0:
                 num_counter += 1
 
+
     if num_counter == 0:
         counter = 0
         for x in range(9):
