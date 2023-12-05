@@ -162,14 +162,12 @@ def check_fill():
                 game_winner = False
                 game_over()
 
-            # Check each column
         for col in range(9):
             columns = [board_obj.board[row][col] for row in range(9)]
             if sorted(columns) != list(range(1, 10)):
                 game_winner = False
                 game_over()
 
-            # Check each 3x3 subgrid
         for row_start in range(0, 9, 3):
             for col_start in range(0, 9, 3):
                 grid_values = [
