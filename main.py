@@ -2,6 +2,7 @@ import pygame
 from constants import *
 from sudoku_generator import SudokuGenerator
 import sys
+import copy
 
 
 pygame.init()
@@ -164,7 +165,6 @@ sudoku_screen = None
 # Main game loop
 
 
-# Parsh
 def check_fill():
     num_counter = 0
     for i in range(9):
@@ -172,16 +172,35 @@ def check_fill():
             if board_obj.board[i][j] == 0:
                 num_counter += 1
 
-
+    game_winner = True
     if num_counter == 0:
-        counter = 0
-        for x in range(9):
-            for y in range(9):
-                valid_checker = board_obj.is_valid(x, y, board_obj.board[x][y])
-                if not valid_checker:
+        for row in board_obj.board:
+            if sorted(row) != list(range(1, 10)):
+                game_winner = False
+                game_over()
+
+            # Check each column
+        for col in range(9):
+            columns = [board_obj.board[row][col] for row in range(9)]
+            if sorted(columns) != list(range(1, 10)):
+                game_winner = False
+                game_over()
+
+            # Check each 3x3 subgrid
+        for row_start in range(0, 9, 3):
+            for col_start in range(0, 9, 3):
+                grid_values = [
+                    board_obj.board[row][col]
+                    for row in range(row_start, row_start + 3)
+                    for col in range(col_start, col_start + 3)
+                ]
+                if sorted(grid_values) != list(range(1, 10)):
+                    game_winner = False
                     game_over()
-                    return
-        game_win_screen()  # winner screen if false doesn't get tripped inside loop
+
+        if game_winner == True:
+            game_win_screen()
+
 
 while game_continue:
     for event in pygame.event.get():
@@ -200,7 +219,7 @@ while game_continue:
                 board_obj.fill_remaining(0, 0)
                 board_obj.remove_cells()
                 board_obj.print_board()
-                old_board = board_obj.board
+                old_board = copy.deepcopy(board_obj.board)
                 draw_board()
                 draw_lines()
                 text6 = font3.render("RESET", True, (0, 128, 0))
@@ -211,9 +230,6 @@ while game_continue:
                 screen.blit(text8, (425, 550))
                 pygame.display.update()
                 pygame.time.Clock().tick(60)
-
-
-
             elif medium_rect.collidepoint(event.pos) and counter == 0:
                 counter += 1
                 print("Medium mode selected")
@@ -270,6 +286,7 @@ while game_continue:
                                 cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
                                 pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
                                 sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
+
                     draw_lines()
                     pygame.display.update()
                     pygame.time.Clock().tick(60)
@@ -286,7 +303,6 @@ while game_continue:
                 for j in range(0, 510, 60):
                     if y <= j:
                         y_counter -= 1
-
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
                 if board_obj.board[y_counter][x_counter] != 0:
