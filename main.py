@@ -66,7 +66,7 @@ def game_over():
     win_text = font4.render("Game OVER!", True, (0, 128, 0))
     screen.blit(win_text, (WIDTH // 2.5 - win_text.get_width() // 3.3, HEIGHT // 3 - win_text.get_height() // 3))
     text8 = font2.render("RESTART", True, (0, 128, 0))
-    screen.blit(text8, (200, 350))
+    screen.blit(text8, (200, 440))
     reset_rect = None
     restart_rect = None
     exit_rect = pygame.Rect((250, 350), (text8.get_width(), text8.get_height()))
@@ -166,11 +166,12 @@ x_val, y_val = None, None
 game_continue = True
 sudoku_screen = None
 
-
-# Main game loop
+global restart_end_screen
+restart_end_screen = 0  # initializes restart counter variable
 
 
 def check_fill():
+    global restart_end_screen
     num_counter = 0
     for i in range(9):
         for j in range(9):
@@ -202,15 +203,18 @@ def check_fill():
                 if sorted(grid_values) != list(range(1, 10)):
                     game_winner = False
                     game_over()
+                    restart_end_screen += 1
 
         if game_winner:
             game_win_screen()
+            restart_end_screen += 1
 
 
 EXIT_CODE = 0  # initializes severity level for exit condition
 total_game_loop = True
 while total_game_loop:  # added additional while loop to iterate through when restarted
     while game_continue:  # default while loop used to run game
+        restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))  # restated restart location
         easy_rect = pygame.Rect((80, 463), (text3.get_width(), text3.get_height()))
         medium_rect = pygame.Rect((250, 463), (text4.get_width(), text4.get_height()))
         hard_rect = pygame.Rect((450, 463), (text5.get_width(), text5.get_height()))
@@ -350,7 +354,7 @@ while total_game_loop:  # added additional while loop to iterate through when re
                         pygame.display.update()
                         pygame.time.Clock().tick(60)
                     elif exit_rect.collidepoint(event.pos):
-                        EXIT_CODE = 2  # exit severity 2 - exits all loops and ends program immediately
+                        EXIT_CODE = 2  # exit severity 2 - exits all loops and terminates program immediately
                         game_continue = False
                 if loop_reset:  # breaks out of respective nested if-else statement
                     break
@@ -458,6 +462,15 @@ while total_game_loop:  # added additional while loop to iterate through when re
                         screen.blit(user_num_gen, (x_val, y_val))
                         pygame.display.update()  # centers values inside their respective boxes
                         check_fill()  # verifies if board completely filled and if user wins or loses
+                        if restart_end_screen >= 1:  # condition is true when end of game reached
+                            # reinitialized restart_rect location
+                            restart_rect = pygame.Rect((250, 450), (text8.get_width(), text8.get_height()))
+                            for restart_loop in pygame.event.get():  # separate for loop for check for restart
+                                if pygame.mouse.get_pressed()[0]:
+                                    if restart_rect.collidepoint(event.pos):
+                                        EXIT_CODE = 1  # initializes severity level to 1
+                                        game_continue = False  # exits inner loop if restart button selected
+                                        pygame.display.update()
 
     if EXIT_CODE == 1:
         game_continue = True
