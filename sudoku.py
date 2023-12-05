@@ -62,6 +62,7 @@ restart_end_screen = 0
 EXIT_CODE = 0  # initializes severity level for exit condition
 total_game_loop = True
 
+
 def game_win_screen():
     WIDTH, HEIGHT = 600, 600
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -135,6 +136,7 @@ def draw_lines():
                      (536, 420), SMALL_LINE)
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 480),
                      (536, 480), SMALL_LINE)
+
 
 def draw_board():
     for i in range(9):
