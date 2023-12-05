@@ -56,7 +56,6 @@ def game_win_screen():
     restart_rect = None
     exit_rect = pygame.Rect((250,350), (text8.get_width(), text8.get_height()))
     pygame.display.update()
-    pygame.time.Clock().tick(60)
 
 def game_over():
     WIDTH, HEIGHT = 600, 600
@@ -156,11 +155,12 @@ restart_rect = pygame.Rect((225, 550), (text7.get_width(), text7.get_height()))
 reset_rect = pygame.Rect((55,550), (text6.get_width(), text6.get_height()))
 exit_rect = pygame.Rect((425,550), (text8.get_width(), text8.get_height()))
 board_obj = None
-board_new = None
+old_board = None
 x_counter, y_counter = None, None
 x, y = None, None
 x_val, y_val = None, None
 game_continue = True
+sudoku_screen = None
 # Main game loop
 
 
@@ -177,11 +177,10 @@ def check_fill():
         for x in range(9):
             for y in range(9):
                 valid_checker = board_obj.is_valid(x, y, board_obj.board[x][y])
-                if valid_checker == False:
+                if not valid_checker:
                     game_over()
-                    counter = 1
-        if counter == 0:
-            game_win_screen()  # winner screen if false doesn't get tripped inside loop
+                    return
+        game_win_screen()  # winner screen if false doesn't get tripped inside loop
 
 while game_continue:
     for event in pygame.event.get():
@@ -200,6 +199,7 @@ while game_continue:
                 board_obj.fill_remaining(0, 0)
                 board_obj.remove_cells()
                 board_obj.print_board()
+                old_board = board_obj.board
                 draw_board()
                 draw_lines()
                 text6 = font3.render("RESET", True, (0, 128, 0))
@@ -260,10 +260,20 @@ while game_continue:
                 if restart_rect.collidepoint(event.pos):
                     game_over()
                 elif reset_rect.collidepoint(event.pos):
-                    game_win_screen()
+                    print(old_board)
+                    for i in range(9):
+                        for j in range(9):
+                            cell_value = old_board[i][j]
+                            if cell_value != 0:
+                                cell_text = font.render(str(cell_value), True, (0, 128, 0))
+                                cell_rect = pygame.Rect(j * 60, i * 60, 60, 60)
+                                pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
+                                sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
+                    draw_lines()
+                    pygame.display.update()
+                    pygame.time.Clock().tick(60)
                 elif exit_rect.collidepoint(event.pos):
                     game_continue = False
-
             if pygame.mouse.get_pressed()[0] == True:
                 x, y = pygame.mouse.get_pos()
                 print(x,y)
@@ -276,15 +286,50 @@ while game_continue:
                     if y <= j:
                         y_counter -= 1
 
-
-
-
-
-
-
-
-
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_BACKSPACE:
+                if board_obj.board[y_counter][x_counter] != 0:
+                    print(x_counter, y_counter)
+                    board_obj.board[y_counter][x_counter] = 0
+                    if x_counter == 0:
+                        x_val = 30 - 10
+                    if x_counter == 1:
+                        x_val = 90 - 10
+                    if x_counter == 2:
+                        x_val = 150 - 10
+                    if x_counter == 3:
+                        x_val = 210 - 10
+                    if x_counter == 4:
+                        x_val = 270 - 10
+                    if x_counter == 5:
+                        x_val = 330 - 10
+                    if x_counter == 6:
+                        x_val = 390 - 10
+                    if x_counter == 7:
+                        x_val = 450 - 10
+                    if x_counter == 8:
+                        x_val = 510 - 10
+                    if y_counter == 0:
+                        y_val = 30 - 19
+                    if y_counter == 1:
+                        y_val = 90 - 19
+                    if y_counter == 2:
+                        y_val = 150 - 19
+                    if y_counter == 3:
+                        y_val = 210 - 19
+                    if y_counter == 4:
+                        y_val = 270 - 19
+                    if y_counter == 5:
+                        y_val = 330 - 19
+                    if y_counter == 6:
+                        y_val = 390 - 19
+                    if y_counter == 7:
+                        y_val = 450 - 19
+                    if y_counter == 8:
+                        y_val = 510 - 19
+                    cell_rect = pygame.Rect(x_val - 18, y_val - 9, 58, 58)
+                    pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
+                    pygame.display.update()
             if pygame.key.name(event.key).isdigit():
                 user_num = pygame.key.name(event.key)
             if pygame.K_1 <= event.key <= pygame.K_9:
