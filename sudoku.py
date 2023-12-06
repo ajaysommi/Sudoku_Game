@@ -366,7 +366,7 @@ while total_game_loop:  # added additional while loop to iterate through when re
                 break
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
-                    if board_obj.board[y_counter][x_counter] != 0:
+                    if board_obj.board[y_counter][x_counter] != 0 and board_obj.board[y_counter][x_counter] != old_board[y_counter][x_counter]:
                         print(x_counter, y_counter)
                         board_obj.board[y_counter][x_counter] = 0
                         if x_counter == 0:
