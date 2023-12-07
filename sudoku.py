@@ -1,4 +1,4 @@
-import pygame
+import pygame #imports pygame
 from constants import *
 from sudoku_generator import SudokuGenerator
 import sys
@@ -41,7 +41,7 @@ screen.blit(text5, (450, 463))
 pygame.display.flip()
 
 counter = 0
-
+#reset, restart, and exit commands are added
 text6 = font3.render("RESET", True, (0, 128, 0))
 text7 = font3.render("RESTART", True, (0, 128, 0))
 text8 = font3.render("EXIT", True, (0, 128, 0))
@@ -62,7 +62,7 @@ restart_end_screen = 0
 EXIT_CODE = 0  # initializes severity level for exit condition
 total_game_loop = True
 
-
+#sets up display for the game winner screen, if user inputs the correct numbers
 def game_win_screen():
     WIDTH, HEIGHT = 600, 600
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -78,7 +78,7 @@ def game_win_screen():
     exit_rect = pygame.Rect((250, 350), (text8.get_width(), text8.get_height()))
     pygame.display.update()
 
-
+#sets up display for the game over screen, if user inputs the wrong numbers
 def game_over():
     WIDTH, HEIGHT = 600, 600
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -94,7 +94,7 @@ def game_over():
     exit_rect = None
     pygame.display.update()
 
-
+#draws the lines for the board to split the cells equally(dimensions)
 def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 180),
                      (536, 180), LINE_WIDTH)
@@ -137,7 +137,7 @@ def draw_lines():
     pygame.draw.line(sudoku_screen, BLACK_COLOR, (0, 480),
                      (536, 480), SMALL_LINE)
 
-
+#def function that draws the board onto the display
 def draw_board():
     for i in range(9):
         for j in range(9):
@@ -148,7 +148,7 @@ def draw_board():
                 pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
                 sudoku_screen.blit(cell_text, (j * 60 + 20, i * 60 + 10))
 
-
+#function that checks if every cell is filled from 1-9
 def check_fill():
     global restart_end_screen
     num_counter = 0
@@ -156,20 +156,20 @@ def check_fill():
         for j in range(9):
             if board_obj.board[i][j] == 0:
                 num_counter += 1
-
+#condition for when the user wins the game by inputting the correct numbers
     game_winner = True
     if num_counter == 0:
         for row in board_obj.board:
             if sorted(row) != list(range(1, 10)):
                 game_winner = False
                 game_over()
-
+#condition for when the user loses the game by inputting the wrong numbers
         for col in range(9):
             columns = [board_obj.board[row][col] for row in range(9)]
             if sorted(columns) != list(range(1, 10)):
                 game_winner = False
                 game_over()
-
+#checks the starting index
         for row_start in range(0, 9, 3):
             for col_start in range(0, 9, 3):
                 grid_values = [
@@ -198,7 +198,7 @@ while total_game_loop:  # added additional while loop to iterate through when re
             loop_reset = False
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
+                sys.exit() #loops through the game and checks for user inputs
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if easy_rect.collidepoint(event.pos):
                     counter += 1
@@ -249,7 +249,7 @@ while total_game_loop:  # added additional while loop to iterate through when re
                     screen.blit(text7, (225, 550))
                     screen.blit(text8, (425, 550))
                     pygame.display.update()
-                    pygame.time.Clock().tick(60)
+                    pygame.time.Clock().tick(60) #initializes font
                     easy_rect = pygame.Rect((0, 0), (text3.get_width(), text3.get_height()))
                     medium_rect = pygame.Rect((0, 0), (text4.get_width(), text4.get_height()))
                     hard_rect = pygame.Rect((0, 0), (text5.get_width(), text5.get_height()))
@@ -365,10 +365,10 @@ while total_game_loop:  # added additional while loop to iterate through when re
             if loop_reset:  # breaks out of respective nested if-else statement
                 break
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE: #backspace allows user to delete their input choice
                     if board_obj.board[y_counter][x_counter] != 0 and board_obj.board[y_counter][x_counter] != old_board[y_counter][x_counter]:
                         print(x_counter, y_counter)
-                        board_obj.board[y_counter][x_counter] = 0
+                        board_obj.board[y_counter][x_counter] = 0 #allows the numbers inputted to align with the other numbers in the cells
                         if x_counter == 0:
                             x_val = 30 - 10
                         if x_counter == 1:
@@ -408,7 +408,7 @@ while total_game_loop:  # added additional while loop to iterate through when re
                         cell_rect = pygame.Rect(x_val - 18, y_val - 9, 58, 58)
                         pygame.draw.rect(sudoku_screen, (255, 255, 255), cell_rect)
                         pygame.display.update()
-                if pygame.key.name(event.key).isdigit():
+                if pygame.key.name(event.key).isdigit(): #checks what numbers have been entered
                     user_num = pygame.key.name(event.key)
                 if pygame.K_1 <= event.key <= pygame.K_9:
                     user_num = int(pygame.key.name(event.key))
@@ -473,7 +473,7 @@ while total_game_loop:  # added additional while loop to iterate through when re
                                         game_continue = False
                                         pygame.display.update()
     if EXIT_CODE == 1:
-        game_continue = True
+        game_continue = True  #breaks the inner loop but continues the game
         continue
-    elif EXIT_CODE == 2:
+    elif EXIT_CODE == 2:  #higher severity level and breaks out of everything and closes the game
         total_game_loop = False

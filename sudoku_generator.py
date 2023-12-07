@@ -1,7 +1,7 @@
 import sys
 import math, random
 
-import math
+import math  #imported math to generate random numbers
 
 
 class SudokuGenerator:
